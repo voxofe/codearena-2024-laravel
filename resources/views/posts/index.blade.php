@@ -11,6 +11,9 @@
             <x-post :post="$post" />
         @endforeach
       </div>
+      <div class="mt-10">
+        {{ $posts->links() }}
+      </div>
     </div>
   </div>
 
