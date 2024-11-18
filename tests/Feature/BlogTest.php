@@ -22,25 +22,9 @@ class BlogTest extends TestCase
     }
 
     /**
-     * Ensure that the blog posts page contains posts.
-     */
-    public function testBlogPostsPageContainsPosts()
-    {
-        $user = User::factory()->create();
-        $post = Post::factory()->create([
-            'user_id' => $user->id,
-        ]);
-
-        $response = $this->get(route('posts'));
-
-        $response->assertStatus(200)
-            ->assertSee($post->title);
-    }
-
-    /**
      * Ensure that the blog post page is accessible.
      */
-    public function testBlogPostPageIsAccessible()
+    public function testBlogPostPageIsAccessibleAndContainsPost()
     {
         $user = User::factory()->create();
         $post = Post::factory()->create([
