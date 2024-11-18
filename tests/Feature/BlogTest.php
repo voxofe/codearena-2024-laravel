@@ -187,8 +187,12 @@ class BlogTest extends TestCase
         $response = $this->get(route('posts'));
 
         $response->assertStatus(200)
-            ->assertSee($user1->name)
-            ->assertSee($user2->name)
+            ->assertSeeInOrder([
+                '<section id="authors"',
+                $user1->name,
+                $user2->name,
+                '</section>',
+            ], false)
             ->assertDontSee($user3->name);
     }
 
