@@ -12,7 +12,7 @@ class BlogTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * Ensure that the blog posts page is accessible.
+     * 1. Ensure that the blog posts page is accessible.
      */
     public function testBlogPostsPageIsAccessible()
     {
@@ -22,7 +22,7 @@ class BlogTest extends TestCase
     }
 
     /**
-     * Ensure that the blog post page is accessible.
+     * 2. Ensure that the blog post page is accessible.
      */
     public function testBlogPostPageIsAccessibleAndContainsPost()
     {
@@ -38,7 +38,7 @@ class BlogTest extends TestCase
     }
 
     /**
-     * Ensure that the author page contains only the posts by the given author.
+     * 3. Ensure that the author page contains only the posts by the given author.
      */
     public function testAuthorPageContainsOnlyPostsByAuthor()
     {
@@ -60,7 +60,7 @@ class BlogTest extends TestCase
     }
 
     /**
-     * Ensure that empty posts page displays "No posts found."
+     * 4. Ensure that empty posts page displays "No posts found."
      */
     public function testEmptyPostsPageDisplaysNoPostsFound()
     {
@@ -71,7 +71,7 @@ class BlogTest extends TestCase
     }
 
     /**
-     * Ensure that the blog post page returns 404 for unpublished posts.
+     * 5. Ensure that the blog post page returns 404 for unpublished posts.
      */
     public function testBlogPostPageReturns404ForUnpublishedPosts()
     {
@@ -87,7 +87,7 @@ class BlogTest extends TestCase
     }
 
     /**
-     * Ensure that only posts with images are displayed on the blog posts page.
+     * 6. Ensure that only posts with images are displayed on the blog posts page.
      */
     public function testOnlyPostsWithImagesAreDisplayedOnBlogPostsPage()
     {
@@ -113,7 +113,7 @@ class BlogTest extends TestCase
     }
 
     /**
-     * Ensure that the blog posts page contains only published posts.
+     * 7. Ensure that the blog posts page contains only published posts.
      */
     public function testBlogPostsPageContainsOnlyPublishedPosts()
     {
@@ -136,7 +136,7 @@ class BlogTest extends TestCase
     }
 
     /**
-     * Ensure that the blog posts page contains posts sorted by published_at.
+     * 8. Ensure that the blog posts page contains posts sorted by published_at.
      */
     public function testBlogPostsPageContainsPostsSortedByPublishedAt()
     {
@@ -158,7 +158,7 @@ class BlogTest extends TestCase
     }
 
     /**
-     * Blog has section has section with the authors who have published posts.
+     * 9. Blog has section with the authors who have published posts.
      */
     public function testBlogHasSectionWithAuthorsWhoHavePublishedPosts()
     {
@@ -197,7 +197,7 @@ class BlogTest extends TestCase
     }
 
         /**
-     * Ensure that the promoted posts page contains only promoted posts.
+     * 10. Ensure that the promoted posts page contains only promoted posts.
      */
     public function testPromotedPostsPageContainsOnlyPromotedPosts()
     {
@@ -223,7 +223,7 @@ class BlogTest extends TestCase
     }
 
     /**
-     * Ensure that promoted posts are displayed first.
+     * 11. Ensure that promoted posts are displayed first.
      */
     public function testPromotedPostsAreDisplayedFirst()
     {
@@ -254,7 +254,7 @@ class BlogTest extends TestCase
     }
 
     /**
-     * Ensure that the blog post page contains a comment form.
+     * 12. Ensure that the blog post page contains a comment form.
      * The form should contain fields for the commentator's name and the comment body.
      * The form's input fields should be required.
      */
@@ -275,7 +275,7 @@ class BlogTest extends TestCase
     }
 
     /**
-     * Ensure that user can add a comment to a post.
+     * 13. Ensure that user can add a comment to a post.
      * Comment should be displayed on the post page.
      * The comment's name and body should be validated.
      */
@@ -310,7 +310,7 @@ class BlogTest extends TestCase
     }
 
     /**
-     * Ensure that the blog post comments are displayed on the post page sorted by created_at
+     * 14. Ensure that the blog post comments are displayed on the post page sorted by created_at
      * in descending order (newest first).
      * Ensure that the date of the comment is displayed in the format readable for humans.
      */
@@ -343,7 +343,7 @@ class BlogTest extends TestCase
     }
 
     /**
-     * Ensure that the blog post comment has a delete button.
+     * 15. Ensure that the blog post comment has a delete button.
      */
     public function testBlogPostCommentHasDeleteButton()
     {
@@ -365,7 +365,7 @@ class BlogTest extends TestCase
     }
 
     /**
-     * Ensure that a blog post comment can be deleted.
+     * 16. Ensure that a blog post comment can be deleted.
      */
     public function testBlogPostCommentCanBeDeleted()
     {
@@ -387,10 +387,28 @@ class BlogTest extends TestCase
     }
 
     /**
-     * TOD:Ensure that blog posts page has pagination.
+     * 17. TOD:Ensure that blog posts page has pagination.
      */
     public function testBlogPostsPageHasPagination()
     {
-        $this->markTestIncomplete();
+        // $this->markTestIncomplete();
+
+        $user = User::factory()->create();
+
+        $post = Post::factory()->count(14)->create([
+            'user_id' => $user->id,
+            'published_at' => now(),
+        ]);
+
+
+        $response = $this->get(route('posts'));
+
+        $response->assertStatus(200)
+        ->assertViewHas('posts');
+        
+        $paginator = $response->viewData('posts');
+        
+        $this->assertInstanceOf(\Illuminate\Pagination\LengthAwarePaginator::class, $paginator);
+
     }
 }

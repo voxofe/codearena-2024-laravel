@@ -5,13 +5,17 @@
     </div>
     <div class="max-w-xl">
       <div class="mt-8 flex items-center gap-x-4 text-xs">
-        <time datetime="2020-03-16" class="text-gray-500">{{ $post->created_at->format("d M Y") }}</time>
+        <time datetime="2020-03-16" class="text-gray-500">{{ $post->published_at->format("d M Y") }}</time>
       </div>
       <div class="group relative">
         <h3 class="mt-3 text-lg/6 font-semibold text-gray-900 group-hover:text-gray-600">
           <a href="{{ route('post', $post) }}">
             <span class="absolute inset-0"></span>
-            {{ $post->title }}
+            @if ($post->promoted)
+                -PROMOTED-  {{$post->title}}
+            @else
+                {{$post->title}}
+            @endif
           </a>
         </h3>
         <p class="mt-5 line-clamp-3 text-sm/6 text-gray-600">{{ $post->excerpt }}</p>
