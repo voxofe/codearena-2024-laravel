@@ -20,7 +20,7 @@ class CommentController extends Controller
             'body' => $request->input('body'),
         ]);
         
-        return redirect()->route('post', $post)->with('success', 'Comment added successfully!');
+        return redirect()->route('post', $post);
     }
 
     public function delete(Comment $comment)
